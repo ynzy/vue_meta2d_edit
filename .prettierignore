@@ -1,0 +1,6 @@
+dist/
+package.json
+public/
+test/*.*
+.lintstagedrc.json
+README.md
