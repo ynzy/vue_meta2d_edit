@@ -5,20 +5,52 @@ import { Search } from '@element-plus/icons';
 import { ref } from 'vue';
 const activeNames = ref(1);
 const inputValue = ref('');
+const iconList = reactive([...defaultIcons]);
+// 管理图元弹框显隐
+const dialogTableVisible = ref(false);
+
+const showList = computed(() => iconList.filter((i) => i.show));
+
+// 拖拽进行画布绘制
 function dragPen(data, e) {
   const json = JSON.stringify(data);
   e.dataTransfer.setData('meta2d', json);
+}
+
+/**
+ * 搜索功能
+ */
+let searchList = reactive([]);
+function doSearch(value) {
+  value = value.trim(); // 清除空格
+  searchList = []; // 重置表格
+  if (value) {
+    // 输入有值
+    // 遍历搜索
+    showList.value.forEach((item) => {
+      searchList.push(...item.list.filter((i) => i.name.includes(value)));
+    });
+  } else {
+    searchList = []; //设置为空
+  }
 }
 </script>
 
 <template>
   <div class="icons">
     <div class="icon_search">
-      <el-input v-model="inputValue" size="small" placeholder="搜索图元" :prefix-icon="Search" />
+      <el-input v-model="inputValue" size="small" placeholder="搜索图元" :prefix-icon="Search" @input="doSearch" class="search_input" />
+      <div class="icon_search_container">
+        <div class="icon_item" v-for="(item, index) in searchList" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index" :title="item.name">
+          <i v-if="item.icon" class="icon-size" :class="item.icon"></i>
+          <img v-else-if="item.image" :src="item.image" />
+          <div v-else-if="item.svg" v-html="item.svg"></div>
+        </div>
+      </div>
     </div>
     <div class="icon_list">
       <el-collapse v-model="activeNames">
-        <template v-for="(icons, index) in defaultIcons" :key="index">
+        <template v-for="(icons, index) in showList" :key="index">
           <el-collapse-item :title="icons.name" :name="index.toString()">
             <div class="icon_container">
               <div class="icon_item" v-for="(item, index) in icons.list" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index">
@@ -33,8 +65,13 @@ function dragPen(data, e) {
       </el-collapse>
     </div>
     <div class="icon_manage">
-      <el-button> 管理图元 </el-button>
+      <el-button @click="dialogTableVisible = !dialogTableVisible"> 管理图元 </el-button>
     </div>
+    <el-dialog v-model="dialogTableVisible" title="图元库管理" center align-center>
+      <div class="icon_manage_container">
+        <div class="icon_manage_item" v-for="(item, index) in iconList" :key="index"><el-switch v-model="item.show" />{{ item.name }}</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -59,20 +96,18 @@ img {
 }
 
 .icon_search {
-  height: 50px;
+  max-height: 400px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
 }
 .icon_list {
   padding: 5px 10px;
   overflow: auto;
   flex: 1;
 }
-.W-10 {
-  width: 100px;
-}
+
 .icon_manage {
   border-top: 1px solid #eee;
   display: flex;
@@ -83,18 +118,32 @@ img {
 .icon_container {
   display: flex;
   justify-content: flex-start;
+  overflow: auto;
   flex-wrap: wrap;
   align-content: center;
+}
+.icon_search_container {
+  padding: 0 10px;
+  max-height: 200px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 .icon_item {
   padding: 5px;
   cursor: pointer;
 }
+img {
+  width: 25px;
+  height: 25px;
+}
+.icon_search_container::-webkit-scrollbar,
 .icon_list::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 1px;
 }
+.icon_search_container::-webkit-scrollbar-thumb,
 .icon_list::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
@@ -102,10 +151,44 @@ img {
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #4e4e4e;
 }
+.icon_search_container::-webkit-scrollbar-track,
 .icon_list::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background: #ffffff;
+}
+.search_input {
+  padding: 10px 10px;
+}
+.icon_search_container::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.icon_search_container::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  height: 20px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #4e4e4e;
+}
+.icon_search_container::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.icon_manage_container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  overflow: auto;
+}
+.icon_manage_item {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
