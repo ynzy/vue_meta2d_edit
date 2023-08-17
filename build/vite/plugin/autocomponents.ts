@@ -3,13 +3,14 @@
  * https://github.com/antfu/unplugin-vue-components
  */
 import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 export function configAutoComponentsPlugin() {
   return Components({
     // 指定组件位置，默认是src/components
     dirs: ['src/components'],
     // ui库解析器
-    resolvers: [],
+    resolvers: [ElementPlusResolver()],
     extensions: ['vue', 'tsx'],
     // 配置文件生成位置
     dts: 'src/components.d.ts',
