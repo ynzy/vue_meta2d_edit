@@ -12,7 +12,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@meta2d/core": "^1.0.24",
+    "@element-plus/icons": "^0.0.11",
+    "@meta2d/core": "^1.0.20",
     "@meta2d/svg": "^1.0.3",
     "element-plus": "^2.3.9",
     "pinia": "^2.1.4",

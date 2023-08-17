@@ -11,9 +11,10 @@
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "types": [
-      "node"
+      "node",
+      "element-plus/global"
     ]
   }
 }

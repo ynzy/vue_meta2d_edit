@@ -2,9 +2,12 @@
 
 import type { PropType as VuePropType } from 'vue';
 import type { utilsType, serviceType, coreType, mitt } from '../src/package';
-
+import { Meta2d } from '@meta2d/core';
 declare global {
-  interface Window {}
+  const meta2d: Meta2d;
+  interface Window {
+    // meta2d: Meta2d;
+  }
 
   const __APP_INFO__: {
     pkg: {
