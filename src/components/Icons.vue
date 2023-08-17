@@ -1,5 +1,5 @@
 <script setup>
-import { icons as iconData } from '@/data/icons';
+import { defaultIcons } from '@/data/icons';
 import { Search } from '@element-plus/icons';
 
 import { ref } from 'vue';
@@ -18,13 +18,18 @@ function dragPen(data, e) {
     </div>
     <div class="icon_list">
       <el-collapse v-model="activeNames">
-        <el-collapse-item title="基本图元" name="1">
-          <div class="icon_container">
-            <div class="icon_item" v-for="(item, index) in iconData" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index">
-              {{ item.title }}
+        <template v-for="(icons, index) in defaultIcons" :key="index">
+          <el-collapse-item :title="icons.name" :name="index.toString()">
+            <div class="icon_container">
+              <div class="icon_item" v-for="(item, index) in icons.list" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index">
+                <i v-if="item.icon" class="icon-size" :class="item.icon"></i>
+                <img v-else-if="item.image" :src="item.image" />
+                <div v-else-if="item.svg" v-html="item.svg"></div>
+                <!-- <div class="name">{{ item.name }}</div> -->
+              </div>
             </div>
-          </div>
-        </el-collapse-item>
+          </el-collapse-item>
+        </template>
       </el-collapse>
     </div>
     <div class="icon_manage">
@@ -41,6 +46,18 @@ function dragPen(data, e) {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.icon-size {
+  font-size: 25px !important;
+  width: 25px;
+}
+
+img {
+  max-width: 25px;
+  max-height: 25px;
+  margin: 4px;
+}
+
 .icon_search {
   height: 50px;
   display: flex;
@@ -49,7 +66,7 @@ function dragPen(data, e) {
   padding: 0 10px;
 }
 .icon_list {
-  padding: 5px 0px;
+  padding: 5px 10px;
   overflow: auto;
   flex: 1;
 }

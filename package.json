@@ -13,7 +13,13 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
+    "@meta2d/activity-diagram": "^1.0.0",
+    "@meta2d/chart-diagram": "^1.0.5",
+    "@meta2d/class-diagram": "^1.0.1",
     "@meta2d/core": "^1.0.20",
+    "@meta2d/flow-diagram": "^1.0.0",
+    "@meta2d/form-diagram": "^1.0.7",
+    "@meta2d/sequence-diagram": "^1.0.0",
     "@meta2d/svg": "^1.0.3",
     "element-plus": "^2.3.9",
     "pinia": "^2.1.4",

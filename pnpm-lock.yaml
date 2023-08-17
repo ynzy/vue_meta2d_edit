@@ -8,9 +8,27 @@ dependencies:
   '@element-plus/icons':
     specifier: ^0.0.11
     version: 0.0.11
+  '@meta2d/activity-diagram':
+    specifier: ^1.0.0
+    version: 1.0.0(@meta2d/core@1.0.24)
+  '@meta2d/chart-diagram':
+    specifier: ^1.0.5
+    version: 1.0.5(@meta2d/core@1.0.24)
+  '@meta2d/class-diagram':
+    specifier: ^1.0.1
+    version: 1.0.1(@meta2d/core@1.0.24)
   '@meta2d/core':
     specifier: ^1.0.20
     version: 1.0.24
+  '@meta2d/flow-diagram':
+    specifier: ^1.0.0
+    version: 1.0.0(@meta2d/core@1.0.24)
+  '@meta2d/form-diagram':
+    specifier: ^1.0.7
+    version: 1.0.7(@meta2d/core@1.0.24)
+  '@meta2d/sequence-diagram':
+    specifier: ^1.0.0
+    version: 1.0.0(@meta2d/core@1.0.24)
   '@meta2d/svg':
     specifier: ^1.0.3
     version: 1.0.3(@meta2d/core@1.0.24)
@@ -953,6 +971,31 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /@meta2d/activity-diagram@1.0.0(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-Pcsa2XW2mJb54HZJ9Jc9nknQp5w/4n51RSerH8osXYr1oC9ys0uFPrE+glq+8cSQJSJH2oHQKtayvYmm8xnYpg==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
+    dev: false
+
+  /@meta2d/chart-diagram@1.0.5(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-LpV3TqrZbU+n8AGH4tmeWOr3pmJLMvZQuETwEopCB1EtbU6EbRTDHjTCw64zlgSAvlTLN3c/qExqQn9FetZ8Gw==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
+      '@types/echarts': 4.9.18
+    dev: false
+
+  /@meta2d/class-diagram@1.0.1(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-/2RXHOBVH9QoJ/aX6ud5/APQbT9bc8uu64tuOu+grx+kicyZu/+O9tFaNl9yn6bJ4+rkvsaNfIQfLxomJvTmSA==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
+    dev: false
+
   /@meta2d/core@1.0.24:
     resolution: {integrity: sha512-mZ+Tkgyj0uzH58XidTvNVv/RmHLMUprVrBF2pACSH6nXa8hKcmXknPsVT2VqkBisdQHdjy8XHnapz4AKak20/A==}
     dependencies:
@@ -962,6 +1005,30 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@meta2d/flow-diagram@1.0.0(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-Cf8L9JZqFVyo6Z9Hj9/+ukeVOTessjYKsgbn1IUVpjQiGREr4HYRcKBSmCmD8AgKggVGvoi9d3Lp6vfB4F95jQ==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
+    dev: false
+
+  /@meta2d/form-diagram@1.0.7(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-WhqdU81StkVM7RyDS6hgbAyz1g50t9OhmU0KXWg0ohrehZHbYOwur6xyK5iuGRJ5ovZbOhaqeYbgrNyqa6azMg==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
+    dev: false
+
+  /@meta2d/sequence-diagram@1.0.0(@meta2d/core@1.0.24):
+    resolution: {integrity: sha512-VK+aoex0IXhgaDAHaJKQQUpEofAQVNip7tpD0jhZecELrBfwYSFq1EvvuRakhg8qncfl6W9gyL6JWoekebZOnQ==}
+    peerDependencies:
+      '@meta2d/core': ^1.0.0
+    dependencies:
+      '@meta2d/core': 1.0.24
     dev: false
 
   /@meta2d/svg@1.0.3(@meta2d/core@1.0.24):
@@ -1044,6 +1111,12 @@ packages:
     resolution: {integrity: sha512-yhxwIlFVSVcMym3O31HoMnRXpoenmpIxcj4Yoes2DUpe+xCJnA7ECQP1Vw889V0jTt/2nzvpLQ/UuMYCd3JPIg==}
     dev: true
 
+  /@types/echarts@4.9.18:
+    resolution: {integrity: sha512-Qav4M1i1qmPemMywMnDGIbvIBB/9pdrDKLI1dyMho4Yz/ldCB3ry2zGeH0UhAhgmaoPgwYrCDo8xd1UeByz+rw==}
+    dependencies:
+      '@types/zrender': 4.0.3
+    dev: false
+
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
@@ -1076,6 +1149,10 @@ packages:
 
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
+    dev: false
+
+  /@types/zrender@4.0.3:
+    resolution: {integrity: sha512-EPI269lkHNsObwILJ1k1z7znLjKyePuWRy/XKK0shSGpBb9cIX307arcwJV4+2NeZj5wEjN06r4D8yFv7sI06g==}
     dev: false
 
   /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.45.0)(typescript@5.1.6):
