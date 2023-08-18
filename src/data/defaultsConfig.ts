@@ -77,15 +77,230 @@ export const menu = {
       icon: '',
       action: 'usePencil'
     }
+  ],
+  right: [
+    {
+      key: 'undo',
+      name: '撤销',
+      icon: 't-angle-left',
+      action: 'undo'
+    },
+    {
+      key: 'redo',
+      name: '重做',
+      icon: 't-angle-right',
+      action: 'redo'
+    },
+    {
+      key: 'start',
+      name: '起点',
+      icon: 't-line',
+      children: [
+        {
+          name: 'line',
+          icon: 't-line',
+          action: 'start',
+          value: ''
+        },
+        {
+          name: 'triangle',
+          icon: 't-to-triangle',
+          action: 'start',
+          value: 'triangle'
+        },
+        {
+          name: 'diamond',
+          icon: 't-to-diamond',
+          action: 'start',
+          value: 'diamond'
+        },
+        {
+          name: 'circle',
+          icon: 't-to-circle',
+          action: 'start',
+          value: 'circle'
+        },
+        {
+          name: 'lineDown',
+          icon: 't-to-lineDown',
+          action: 'start',
+          value: 'lineDown'
+        },
+        {
+          name: 'lineUp',
+          icon: 't-to-lineUp',
+          action: 'start',
+          value: 'lineUp'
+        },
+        {
+          name: 'triangleSolid',
+          icon: 't-to-triangleSolid',
+          action: 'start',
+          value: 'triangleSolid'
+        },
+        {
+          name: 'diamondSolid',
+          icon: 't-to-diamondSolid',
+          action: 'start',
+          value: 'diamondSolid'
+        },
+        {
+          name: 'circleSolid',
+          icon: 't-to-circleSolid',
+          action: 'start',
+          value: 'circleSolid'
+        },
+        {
+          name: 'lineArrow',
+          icon: 't-to-line',
+          action: 'start',
+          value: 'line'
+        }
+      ]
+    },
+    {
+      key: 'end',
+      name: '终点',
+      icon: 't-line',
+      children: [
+        {
+          name: 'line',
+          icon: 't-line',
+          action: 'end',
+          value: ''
+        },
+        {
+          name: 'triangle',
+          icon: 't-to-triangle',
+          action: 'end',
+          value: 'triangle'
+        },
+        {
+          name: 'diamond',
+          icon: 't-to-diamond',
+          action: 'end',
+          value: 'diamond'
+        },
+        {
+          name: 'circle',
+          icon: 't-to-circle',
+          action: 'end',
+          value: 'circle'
+        },
+        {
+          name: 'lineDown',
+          icon: 't-to-lineDown',
+          action: 'end',
+          value: 'lineDown'
+        },
+        {
+          name: 'lineUp',
+          icon: 't-to-lineUp',
+          action: 'end',
+          value: 'lineUp'
+        },
+        {
+          name: 'triangleSolid',
+          icon: 't-to-triangleSolid',
+          action: 'end',
+          value: 'triangleSolid'
+        },
+        {
+          name: 'diamondSolid',
+          icon: 't-to-diamondSolid',
+          action: 'end',
+          value: 'diamondSolid'
+        },
+        {
+          name: 'circleSolid',
+          icon: 't-to-circleSolid',
+          action: 'end',
+          value: 'circleSolid'
+        },
+        {
+          name: 'lineArrow',
+          icon: 't-to-line',
+          action: 'end',
+          value: 'line'
+        }
+      ]
+    },
+    {
+      key: 'line',
+      name: '连线',
+      icon: 't-line',
+      children: [
+        {
+          name: '直线',
+          icon: ' t-line',
+          action: 'line',
+          value: 'line'
+        },
+        {
+          name: '曲线',
+          icon: 't-curve2',
+          action: 'line',
+          value: 'curve'
+        },
+        {
+          name: '线段',
+          icon: 't-polyline',
+          action: 'line',
+          value: 'polyline'
+        },
+        {
+          name: '脑图',
+          icon: 't-mind',
+          action: 'line',
+          value: 'mind'
+        }
+      ]
+    },
+    {
+      key: 'manual',
+      name: '手动锚点',
+      icon: '',
+      action: 'manual'
+    },
+    {
+      key: 'grid',
+      name: '网格',
+      icon: '',
+      action: 'grid'
+    },
+    {
+      key: 'rule',
+      name: '标尺',
+      icon: '',
+      action: 'rule'
+    },
+    {
+      key: 'saveAs',
+      name: '保存为',
+      icon: '',
+      children: [
+        {
+          name: 'svg',
+          action: 'saveAs',
+          value: 'svg'
+        },
+        {
+          name: 'png',
+          action: 'saveAs',
+          value: 'png'
+        }
+      ]
+    }
   ]
 };
 
 // 分发执行事件函数
-export function dispatchFunc(act: any) {
+export function dispatchFunc(act: string, value?: any, ...args: any) {
   // doSomething before
   // @ts-ignore
-  menuFunc[act]();
+  menuFunc[act](value, ...args);
 }
+
 const menuFunc = {
   newFile() {
     window.meta2d.open();
@@ -204,12 +419,23 @@ const menuFunc = {
       window.meta2d.drawingPencil();
     }
   },
+  /**
+   * 撤销
+   */
   undo() {
     meta2d.undo();
   },
+  /**
+   * 重做
+   */
   redo() {
     meta2d.redo();
   },
+  /**
+   * 起点样式
+   * @param value
+   * @param icon
+   */
   start(value, icon) {
     const a = menu.right.find((i) => i.key === 'start'); // 获取按钮元数据
     a.icon = icon; // 修改元数据的图标
@@ -247,12 +473,17 @@ const menuFunc = {
     });
     meta2d.render();
   },
+  /**
+   * 网格
+   */
   grid() {
     if (meta2d.store.data.grid) {
+      // 判断网格是否已经打开
       meta2d.setGrid({
-        grid: false
+        grid: false // 关闭网格
       });
     } else {
+      // 设置网格 并设置属性
       meta2d.setGrid({
         grid: true,
         gridColor: '#e2e2e2',
@@ -260,28 +491,42 @@ const menuFunc = {
         gridRotate: 0
       });
     }
-    meta2d.render();
+    meta2d.render(); // 重新渲染
   },
+  /**
+   * 标尺
+   */
   rule() {
     if (meta2d.store.data.rule) {
+      // 查看是否已经打开rule
       meta2d.setRule({
+        // 关闭rule
         rule: false
       });
     } else {
       meta2d.setRule({
+        // 开启rule
         rule: true,
-        ruleColor: '#414141'
+        ruleColor: '#414141' // 设置颜色
       });
     }
-    meta2d.render();
+    meta2d.render(); // 重新渲染
   },
+  /**
+   * 设置锚点
+   */
   manual() {
     meta2d.toggleAnchorMode();
   },
+  /**
+   * 保存
+   * @param value
+   */
   saveAs(value) {
     // 选择导出格式
     switch (value) {
       case 'png':
+        // eslint-disable-next-line no-case-declarations
         let name = meta2d.store.data.name;
         if (name) {
           name += '.png';
@@ -293,4 +538,68 @@ const menuFunc = {
         break;
     }
   }
+};
+
+/**
+ * 是否显示子物体
+ * @param pen
+ * @param store
+ * @returns
+ */
+function isShowChild(pen, store) {
+  let selfPen = pen;
+  while (selfPen && selfPen.parentId) {
+    const oldPen = selfPen;
+    selfPen = store.pens[selfPen.parentId];
+    const showChildIndex = selfPen?.calculative?.showChild;
+    if (showChildIndex != undefined) {
+      const showChildId = selfPen.children[showChildIndex];
+      if (showChildId !== oldPen.id) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * 导出svg
+ */
+const downloadSvg = () => {
+  const rect = meta2d.getRect();
+  // @ts-ignore
+  rect.x -= 10;
+  // @ts-ignore
+  rect.y -= 10;
+  // @ts-ignore
+  const ctx = new C2S(rect.width + 20, rect.height + 20);
+  ctx.textBaseline = 'middle';
+  for (const pen of meta2d.store.data.pens) {
+    if (pen.visible == false || !isShowChild(pen, meta2d.store)) {
+      continue;
+    }
+    meta2d.renderPenRaw(ctx, pen, rect);
+  }
+
+  let mySerializedSVG = ctx.getSerializedSvg();
+  if (meta2d.store.data.background) {
+    mySerializedSVG = mySerializedSVG.replace('{{bk}}', '');
+    mySerializedSVG = mySerializedSVG.replace('{{bkRect}}', `<rect x="0" y="0" width="100%" height="100%" fill="${meta2d.store.data.background}"></rect>`);
+  } else {
+    mySerializedSVG = mySerializedSVG.replace('{{bk}}', '');
+    mySerializedSVG = mySerializedSVG.replace('{{bkRect}}', '');
+  }
+
+  mySerializedSVG = mySerializedSVG.replace(/--le5le--/g, '&#x');
+
+  const urlObject = window.URL || window;
+  const export_blob = new Blob([mySerializedSVG]);
+  const url = urlObject.createObjectURL(export_blob);
+
+  const a = document.createElement('a');
+  a.setAttribute('download', `${meta2d.store.data.name || 'le5le.meta2d'}.svg`);
+  a.setAttribute('href', url);
+  const evt = document.createEvent('MouseEvents');
+  evt.initEvent('click', true, true);
+  a.dispatchEvent(evt);
 };

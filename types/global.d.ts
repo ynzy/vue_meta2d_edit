@@ -7,8 +7,10 @@ import { IMeta2d } from './meta2d.d.ts';
 
 declare global {
   const meta2d: IMeta2d;
+  const C2S: any;
   interface Window {
     meta2d: IMeta2d;
+    C2S: any;
   }
 
   const __APP_INFO__: {
