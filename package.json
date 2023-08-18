@@ -21,7 +21,9 @@
     "@meta2d/form-diagram": "^1.0.7",
     "@meta2d/sequence-diagram": "^1.0.0",
     "@meta2d/svg": "^1.0.3",
+    "axios": "^1.4.0",
     "element-plus": "^2.3.9",
+    "mitt": "^3.0.1",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
