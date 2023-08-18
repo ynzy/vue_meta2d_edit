@@ -11,6 +11,7 @@ import { configAutoImportPlugin } from './autoImport';
 import { configAutoComponentsPlugin } from './autocomponents';
 import { configCompressPlugin } from './compress';
 import VueDevTools from 'vite-plugin-vue-devtools';
+import { devServerMiddleware } from './getFiles';
 
 export function createVitePlugins(viteEnv: any, isBuild: boolean) {
   const { VITE_ENV, VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv;
@@ -20,7 +21,8 @@ export function createVitePlugins(viteEnv: any, isBuild: boolean) {
     vue(),
     vueJsx({
       include: /\.(jsx|tsx)/
-    })
+    }),
+    devServerMiddleware()
   ];
   // vite-plugin-style-import
   // vitePlugins.push(configStyleImportPlugin(isBuild));

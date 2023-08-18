@@ -7,6 +7,14 @@ import { classPens } from '@meta2d/class-diagram'; // 类图
 import { formPens } from '@meta2d/form-diagram'; // 表单
 import { register as registerEcharts, registerHighcharts, registerLightningChart } from '@meta2d/chart-diagram'; // 引入echarts注册函数，原函数名为register 为了与其他注册函数区分这里重命名为registerEcharts
 
+import { myTriangle, myTriangleAnchors } from '../../public/path2D/mypath2d/myTriangle.js';
+import { canvasTriangle, canvasTriangleAnchors } from '../../public/canvasDraw/myCanvasDraw/canvasTriangle.js';
+
+import { useEventbus } from '../hooks/useEventbus';
+import Contextmenu from './Contextmenu.vue';
+
+const event = useEventbus();
+
 const meta2dOptions = {
   grid: true,
   rule: true
@@ -37,8 +45,20 @@ onMounted(() => {
 
   // 直接调用HightCharts的注册函数
   registerHighcharts();
-
+  // 直接调用LightningChart的注册函数
   registerLightningChart();
+
+  //注册自定义path2d图元
+  meta2d.register({ myTriangle });
+  // 注册自定义图元的m锚点信息
+  meta2d.registerAnchors({ myTriangle: myTriangleAnchors });
+
+  // 注册自定义canvasDraw函数
+  meta2d.registerCanvasDraw({ canvasTriangle });
+  //注册锚点
+  meta2d.registerAnchors({ canvasTriangle: canvasTriangleAnchors });
+  event.customEmit('opened');
+  event.customEmit('load');
 });
 
 onUnmounted(() => {
@@ -49,6 +69,7 @@ onUnmounted(() => {
 <template>
   <!--  meta2d图纸所站位置-->
   <div id="meta2d"></div>
+  <Contextmenu></Contextmenu>
 </template>
 
 <style scoped>

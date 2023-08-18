@@ -17,7 +17,9 @@ function getUserDir(path: string, extend = []) {
     return fileList.concat(extend); // 合并路径，方便未来用户自定义扩充路径
   };
 }
-
+/**
+ * 用户定义路径的url
+ */
 export const userPensUrl = {
   'icon': getUserDir('/icon/', []),
   'svg': getUserDir('/svg/', []),

@@ -1,6 +1,11 @@
 // import { commonPens } from '@meta2d/core/src/diagrams/index.js';
 
+import axios from 'axios';
 import { ReplaceMode } from '@meta2d/chart-diagram';
+import { parseSvg } from '@meta2d/svg';
+import { userPensUrl } from './defaultsConfig';
+import { iconMap } from '../../public/path2D/index';
+import { canvasDrawMap } from '../../public/canvasDraw/index';
 
 export const defaultIcons = [
   {
@@ -1872,6 +1877,232 @@ export const defaultIcons = [
     ]
   }
 ];
+
+/**
+ * 获取其他图标
+ */
+export async function getOtherIcons() {
+  let result = [];
+  let datas = await Promise.all([
+    getUnicodeIcons(), // 引入字体图标
+    getSvgs(),
+    getPngs(),
+    getPath2Ds(),
+    getCanvasDraw()
+  ]);
+  result.push(...datas.filter(Boolean));
+  return result;
+}
+/**
+ * 获取icon图标
+ * @returns
+ */
+async function getUnicodeIcons() {
+  let icons = [];
+  const iconsUrl = await userPensUrl.icon(); // 获取字体图标的路径
+  icons = await Promise.all(
+    iconsUrl.map((url) => addIcons(url.name)) // 添加字体图标
+  );
+  console.log('icons', icons);
+
+  return icons; // 返回结果
+}
+/**
+ * 添加字体图标
+ * @param url
+ * @returns
+ */
+async function addIcons(url: string) {
+  // 请求路径
+  let data = await fetch('/icon/' + url + '/iconfont.json').then((rsp) => rsp.json());
+  let iconGroup = {
+    name: data.name,
+    loaded: true,
+    show: true,
+    list: [] as any
+  };
+  data.glyphs.map((item: any) =>
+    iconGroup.list.push({
+      // 侧边栏信息
+      name: item.name,
+      // 侧边栏目显示
+      icon: data.css_prefix_text + item.font_class,
+      data: {
+        // 配置图元信息
+        width: 100,
+        height: 100,
+        name: 'icon', // 指定为icon类型
+        iconFamily: data.font_family, // 字体图标配置
+        icon: String.fromCharCode(item.unicode_decimal) // 字体图标
+      }
+    })
+  );
+  return iconGroup;
+}
+
+/**
+ * 获取svg图标
+ */
+async function getSvgs() {
+  const folderName = 'svg/';
+  let svgs = [];
+  // 获取用户svg路径
+  const svgUrl = await userPensUrl.svg();
+  for (let i of svgUrl) {
+    // 如果是目录，获取目录下的文件列表
+    if (i.type === 'directory') {
+      const { data: files } = await axios.get(folderName + i.name + '/');
+      // console.log('files', files);
+      svgs.push({
+        name: i.name,
+        count: files.length,
+        list: [], // 进行懒加载 暂时不获取文件内容
+        folder: true, // 标记为文件夹 懒加载时进行处理
+        show: true,
+        svg: true, // 标记为svg文件
+        loaded: false // 是否已经懒加载
+      });
+    }
+  }
+  return svgs;
+}
+
+async function getPngs() {
+  const folderName = 'png/';
+  let png = [];
+  const pngUrl = await userPensUrl.png();
+  for (let i of pngUrl) {
+    if (i.type === 'directory') {
+      const { data: files } = await axios.get(folderName + i.name + '/');
+      png.push({
+        name: i.name,
+        count: files.length,
+        list: [], // 进行懒加载 暂时不获取文件内容
+        folder: true, // 标记为文件夹 懒加载时进行处理
+        show: true,
+        svg: false, // 标记为png文件
+        loaded: false
+      });
+    }
+  }
+  return png;
+}
+
+/**
+ * 获取path2D图形图标
+ * @returns
+ */
+async function getPath2Ds() {
+  const folderName = 'path2D/';
+  let path2d = [];
+  const path2DUrl = await userPensUrl.path2D();
+  for (let i of path2DUrl) {
+    if (i.type === 'directory') {
+      const { data: files } = await axios.get(folderName + i.name + '/');
+      let dataList = [];
+      for (let j of files) {
+        const name = getFileName(j.name);
+        dataList.push({
+          name,
+          icon: 'l-' + iconMap[name], // 侧边栏展示图标
+          data: {
+            width: 100,
+            height: 100,
+            name,
+            text: name
+          }
+        });
+      }
+      path2d.push({
+        name: i.name,
+        count: files.length,
+        list: dataList,
+        show: true
+      });
+    }
+  }
+  return path2d;
+}
+/**
+ * 获取Canvas Context2D绘图图标
+ * @returns
+ */
+async function getCanvasDraw() {
+  const folderName = 'canvasDraw/';
+  let canvasDraw = [];
+  const canvasUrl = await userPensUrl.canvasDraw();
+  for (let i of canvasUrl) {
+    if (i.type === 'directory') {
+      const { data: files } = await axios.get(folderName + i.name + '/');
+      let dataList = [];
+      for (let j of files) {
+        const name = getFileName(j.name);
+        dataList.push({
+          name,
+          icon: 'l-' + canvasDrawMap[name], // 侧边栏展示图标
+          data: {
+            width: 100,
+            height: 100,
+            name,
+            text: name
+          }
+        });
+      }
+      canvasDraw.push({
+        name: i.name,
+        count: files.length,
+        list: dataList,
+        show: true
+      });
+    }
+  }
+  return canvasDraw;
+}
+
+/**
+ * 获取文件名字
+ * @param name
+ * @returns
+ */
+function getFileName(name: string) {
+  const n = name.lastIndexOf('.');
+  if (n !== -1) {
+    return name.substring(0, n);
+  }
+  return name;
+}
+
+/**
+ * svg绘图
+ * @param f 获取的文件信息
+ * @param dName
+ * @returns
+ */
+export async function svgToPens(f: any, dName: string) {
+  const name = getFileName(f.name);
+  const image = '/svg/' + dName + '/' + f.name;
+  return {
+    name,
+    image,
+    data: parseSvg(await fetch(image).then((res) => res.text())),
+    component: true
+  };
+}
+
+/**
+ * png绘图数据
+ * @param f 获取的文件信息
+ * @param dName
+ * @returns
+ */
+export async function pngToPens(f: any, dName: string) {
+  let name = getFileName(f.name);
+  const image = '/png/' + dName + '/' + f.name;
+  return {
+    name,
+    image
+  };
+}
 
 // // 自己可扩展
 // export function commonPensForUser() {

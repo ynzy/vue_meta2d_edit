@@ -1,5 +1,6 @@
-<script setup>
-import { defaultIcons } from '@/data/icons';
+<script setup lang="ts">
+import axios from 'axios';
+import { defaultIcons, getOtherIcons, pngToPens, svgToPens } from '@/data/icons';
 import { Search } from '@element-plus/icons';
 
 import { ref } from 'vue';
@@ -11,10 +12,40 @@ const dialogTableVisible = ref(false);
 
 const showList = computed(() => iconList.filter((i) => i.show));
 
+onMounted(async () => {
+  const icons = await getOtherIcons();
+  iconList.push(...icons.flat(2));
+  console.log('iconList', iconList);
+});
+
 // 拖拽进行画布绘制
 function dragPen(data, e) {
   const json = JSON.stringify(data);
   e.dataTransfer.setData('meta2d', json);
+}
+
+/**
+ * 监听tab打开状态
+ * @param tab
+ */
+async function changeState(tab) {
+  if (tab.folder) {
+    // 判断tab是否被加载过
+    if (!tab.loaded) {
+      // 获取对应文件夹下的图标文件信息
+      const { data: files } = await axios.get((tab.svg ? '/svg/' : '/png/') + tab.name + '/');
+      tab.loaded = true;
+      // 如果是svg，使用svgToPens方法返回meta2d可识别的pen图元
+      if (tab.svg) {
+        const fs = await Promise.all(files.map((f) => svgToPens(f, tab.name)));
+        tab.list = fs;
+        // 如果是png，使用pngToPens方法返回meta2d可识别的pen图元
+      } else {
+        const fs = await Promise.all(files.map((f) => pngToPens(f, tab.name)));
+        tab.list = fs;
+      }
+    }
+  }
 }
 
 /**
@@ -51,13 +82,17 @@ function doSearch(value) {
     <div class="icon_list">
       <el-collapse v-model="activeNames">
         <template v-for="(icons, index) in showList" :key="index">
-          <el-collapse-item :title="icons.name" :name="index.toString()">
+          <el-collapse-item :title="icons.name" :name="index.toString()" @click="changeState(icons)">
             <div class="icon_container">
               <div class="icon_item" v-for="(item, index) in icons.list" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index">
-                <i v-if="item.icon" class="icon-size" :class="item.icon"></i>
+                <!-- <i v-if="item.icon" class="icon-size" :class="item.icon"></i> -->
+                <!-- 使用svg图标 -->
+                <svg v-if="item.icon" class="l-icon" aria-hidden="true">
+                  <use :xlink:href="'#' + item.icon"></use>
+                </svg>
                 <img v-else-if="item.image" :src="item.image" />
                 <div v-else-if="item.svg" v-html="item.svg"></div>
-                <!-- <div class="name">{{ item.name }}</div> -->
+                <div class="name">{{ item.name }}</div>
               </div>
             </div>
           </el-collapse-item>
