@@ -73,7 +73,10 @@ function doSearch(value) {
       <el-input v-model="inputValue" size="small" placeholder="搜索图元" :prefix-icon="Search" @input="doSearch" class="search_input" />
       <div class="icon_search_container">
         <div class="icon_item" v-for="(item, index) in searchList" :key="index" draggable="true" @dragstart="dragPen(item.data, $event)" :index="index" :title="item.name">
-          <i v-if="item.icon" class="icon-size" :class="item.icon"></i>
+          <!-- <i v-if="item.icon" class="icon-size" :class="item.icon"></i> -->
+          <svg v-if="item.icon" class="l-icon" aria-hidden="true">
+            <use :xlink:href="'#' + item.icon"></use>
+          </svg>
           <img v-else-if="item.image" :src="item.image" />
           <div v-else-if="item.svg" v-html="item.svg"></div>
         </div>

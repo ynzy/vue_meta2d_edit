@@ -14,8 +14,9 @@ export const defaultIcons = [
     list: [
       {
         name: 'square',
-        icon: 't-icon t-rect',
+        icon: 'l-rect',
         id: 1,
+        // 图元数据和配置
         data: {
           text: '正方形',
           width: 100,
@@ -32,7 +33,7 @@ export const defaultIcons = [
       },
       {
         name: 'rectangle',
-        icon: 't-icon t-rectangle',
+        icon: 'l-rectangle',
         id: 2,
         data: {
           text: '圆角矩形',
@@ -44,7 +45,7 @@ export const defaultIcons = [
       },
       {
         name: 'circle',
-        icon: 't-icon t-circle',
+        icon: 'l-circle',
         id: 3,
         data: {
           text: '圆',
@@ -55,7 +56,7 @@ export const defaultIcons = [
       },
       {
         name: 'triangle',
-        icon: 't-icon t-triangle',
+        icon: 'l-triangle',
         id: 4,
         data: {
           text: '三角形',
@@ -66,7 +67,7 @@ export const defaultIcons = [
       },
       {
         name: 'diamond',
-        icon: 't-icon t-diamond',
+        icon: 'l-diamond',
         id: 5,
         data: {
           text: '菱形',
@@ -77,7 +78,7 @@ export const defaultIcons = [
       },
       {
         name: 'pentagon',
-        icon: 't-icon t-pentagon',
+        icon: 'l-pentagon',
         id: 6,
         data: {
           text: '五边形',
@@ -88,7 +89,7 @@ export const defaultIcons = [
       },
       {
         name: 'hexagon',
-        icon: 't-icon t-hexagon',
+        icon: 'l-hexagon',
         id: 7,
         data: {
           text: '六边形',
@@ -99,7 +100,7 @@ export const defaultIcons = [
       },
       {
         name: 'pentagram',
-        icon: 't-icon t-pentagram',
+        icon: 'l-pentagram',
         id: 8,
         data: {
           text: '五角星',
@@ -110,7 +111,7 @@ export const defaultIcons = [
       },
       {
         name: 'leftArrow',
-        icon: 't-icon t-arrow-left',
+        icon: 'l-arrow-left',
         id: 9,
         data: {
           text: '左箭头',
@@ -121,7 +122,7 @@ export const defaultIcons = [
       },
       {
         name: 'rightArrow',
-        icon: 't-icon t-arrow-right',
+        icon: 'l-arrow-right',
         id: 10,
         data: {
           text: '右箭头',
@@ -132,7 +133,7 @@ export const defaultIcons = [
       },
       {
         name: 'twowayArrow',
-        icon: 't-icon t-twoway-arrow',
+        icon: 'l-twoway-arrow',
         id: 11,
         data: {
           text: '双向箭头',
@@ -143,7 +144,7 @@ export const defaultIcons = [
       },
       {
         name: 'line',
-        icon: 't-icon t-line',
+        icon: 'l-line',
         id: 12,
         data: {
           anchors: [
@@ -167,7 +168,7 @@ export const defaultIcons = [
       },
       {
         name: 'cloud',
-        icon: 't-icon t-cloud',
+        icon: 'l-cloud',
         id: 13,
         data: {
           text: '云',
@@ -178,7 +179,7 @@ export const defaultIcons = [
       },
       {
         name: 'message',
-        icon: 't-icon t-msg',
+        icon: 'l-msg',
         id: 14,
         data: {
           textTop: -0.1,
@@ -190,7 +191,7 @@ export const defaultIcons = [
       },
       {
         name: 'file',
-        icon: 't-icon t-file',
+        icon: 'l-file',
         id: 15,
         data: {
           text: '文档',
@@ -201,18 +202,19 @@ export const defaultIcons = [
       },
       {
         name: 'text',
-        icon: 't-icon t-text',
+        icon: 'l-text',
         id: 16,
         data: {
           text: `meta2d`,
-          width: 160,
-          height: 30,
-          name: 'text'
+          width: 136,
+          height: 50,
+          name: 'text',
+          fontSize: 24
         }
       },
       {
         name: 'image',
-        icon: 't-icon t-image',
+        icon: 'l-image',
         id: 17,
         data: {
           text: '',
@@ -224,7 +226,7 @@ export const defaultIcons = [
       },
       {
         name: 'cube',
-        icon: 't-icon t-cube',
+        icon: 'l-cube',
         id: 18,
         data: {
           width: 60,
@@ -260,7 +262,7 @@ export const defaultIcons = [
       },
       {
         name: 'people',
-        icon: 't-icon t-people',
+        icon: 'l-people',
         id: 19,
         data: {
           width: 70,
@@ -270,7 +272,7 @@ export const defaultIcons = [
       },
       {
         name: 'video',
-        icon: 't-icon t-pc',
+        icon: 'l-pc',
         id: 20,
         data: {
           width: 200,
@@ -282,7 +284,7 @@ export const defaultIcons = [
       },
       // {
       //   name: 'video',
-      //   icon: 't-icon t-pc',
+      //   icon: 'l-pc',
       //   id: 20,
       //   data: {
       //     width: 200,
@@ -295,7 +297,7 @@ export const defaultIcons = [
       // },
       // {
       //   name: 'video',
-      //   icon: 't-icon t-pc',
+      //   icon: 'l-pc',
       //   id: 20,
       //   data: {
       //     width: 200,
@@ -313,7 +315,7 @@ export const defaultIcons = [
       // },
       {
         name: 'iframe',
-        icon: 't-icon t-02',
+        icon: 'l-02',
         id: 21,
         data: {
           name: 'iframe',
@@ -343,7 +345,7 @@ export const defaultIcons = [
     list: [
       {
         name: '表格',
-        icon: 't-icon t-biaoge',
+        icon: 'l-biaoge',
         data: {
           name: 'table2',
           width: 0,
@@ -452,7 +454,7 @@ export const defaultIcons = [
 
       {
         name: '复选框',
-        icon: 't-icon t-xuanzeqi',
+        icon: 'l-xuanzeqi',
         data: {
           name: 'checkbox',
           width: 100,
@@ -484,7 +486,7 @@ export const defaultIcons = [
       },
       {
         name: '单选框',
-        icon: 't-icon t-danxuankuang',
+        icon: 'l-danxuankuang',
         data: {
           name: 'radio',
           width: 150,
@@ -526,7 +528,7 @@ export const defaultIcons = [
       },
       {
         name: '开关',
-        icon: 't-icon t-kaiguan',
+        icon: 'l-kaiguan',
         data: {
           name: 'switch',
           disableAnchor: true,
@@ -549,7 +551,7 @@ export const defaultIcons = [
       },
       {
         name: '进度条',
-        icon: 't-icon t-jindutiao',
+        icon: 'l-jindutiao',
         data: {
           anchors: [],
           disableAnchor: true,
@@ -591,7 +593,7 @@ export const defaultIcons = [
       },
       {
         name: '按钮',
-        icon: 't-icon t-anniu',
+        icon: 'l-anniu',
         data: {
           name: 'rectangle',
           x: 300,
@@ -614,7 +616,7 @@ export const defaultIcons = [
       },
       {
         name: '输入框',
-        icon: 't-icon t-shurukuang',
+        icon: 'l-shurukuang',
         data: {
           x: 100,
           y: 100,
@@ -636,7 +638,7 @@ export const defaultIcons = [
       },
       {
         name: '选择器',
-        icon: 't-icon t-xuanzeqi',
+        icon: 'l-xuanzeqi',
         data: {
           x: 100,
           y: 100,
@@ -682,7 +684,7 @@ export const defaultIcons = [
     list: [
       {
         name: 'mindNode',
-        icon: 't-icon t-zhuti',
+        icon: 'l-zhuti',
         data: {
           text: '主题',
           width: 200,
@@ -693,7 +695,7 @@ export const defaultIcons = [
       },
       {
         name: 'mindLine',
-        icon: 't-icon t-zizhuti',
+        icon: 'l-zizhuti',
         data: {
           text: '子主题',
           width: 160,
@@ -709,7 +711,7 @@ export const defaultIcons = [
     list: [
       {
         name: '开始/结束',
-        icon: 't-icon t-flow-start',
+        icon: 'l-flow-start',
         id: 21,
         data: {
           text: '开始/结束',
@@ -721,7 +723,7 @@ export const defaultIcons = [
       },
       {
         name: '流程',
-        icon: 't-icon t-rectangle',
+        icon: 'l-rectangle',
         id: 22,
         data: {
           text: '流程',
@@ -732,7 +734,7 @@ export const defaultIcons = [
       },
       {
         name: '判定',
-        icon: 't-icon t-diamond',
+        icon: 'l-diamond',
         id: 23,
         data: {
           text: '判定',
@@ -743,7 +745,7 @@ export const defaultIcons = [
       },
       {
         name: '数据',
-        icon: 't-icon t-flow-data',
+        icon: 'l-flow-data',
         id: 24,
         data: {
           text: '数据',
@@ -765,7 +767,7 @@ export const defaultIcons = [
       },
       {
         name: '准备',
-        icon: 't-icon t-flow-ready',
+        icon: 'l-flow-ready',
         id: 25,
         data: {
           text: '准备',
@@ -776,7 +778,7 @@ export const defaultIcons = [
       },
       {
         name: '子流程',
-        icon: 't-icon t-flow-subprocess',
+        icon: 'l-flow-subprocess',
         id: 26,
         data: {
           text: '子流程',
@@ -787,7 +789,7 @@ export const defaultIcons = [
       },
       {
         name: '数据库',
-        icon: 't-icon t-db',
+        icon: 'l-db',
         id: 27,
         data: {
           text: '数据库',
@@ -798,7 +800,7 @@ export const defaultIcons = [
       },
       {
         name: '文档',
-        icon: 't-icon t-flow-document',
+        icon: 'l-flow-document',
         id: 28,
         data: {
           text: '文档',
@@ -809,7 +811,7 @@ export const defaultIcons = [
       },
       {
         name: '内部存储',
-        icon: 't-icon t-internal-storage',
+        icon: 'l-internal-storage',
         id: 29,
         data: {
           text: '内部存储',
@@ -820,7 +822,7 @@ export const defaultIcons = [
       },
       {
         name: '外部存储',
-        icon: 't-icon t-extern-storage',
+        icon: 'l-extern-storage',
         id: 30,
         data: {
           text: '外部存储',
@@ -831,7 +833,7 @@ export const defaultIcons = [
       },
       {
         name: '队列',
-        icon: 't-icon t-flow-queue',
+        icon: 'l-flow-queue',
         id: 31,
         data: {
           text: '队列',
@@ -842,7 +844,7 @@ export const defaultIcons = [
       },
       {
         name: '手动输入',
-        icon: 't-icon t-flow-manually',
+        icon: 'l-flow-manually',
         id: 32,
         data: {
           text: '手动输入',
@@ -853,7 +855,7 @@ export const defaultIcons = [
       },
       {
         name: '展示',
-        icon: 't-icon t-flow-display',
+        icon: 'l-flow-display',
         id: 33,
         data: {
           text: '展示',
@@ -864,7 +866,7 @@ export const defaultIcons = [
       },
       {
         name: '并行模式',
-        icon: 't-icon t-flow-parallel',
+        icon: 'l-flow-parallel',
         id: 34,
         data: {
           text: '并行模式',
@@ -875,7 +877,7 @@ export const defaultIcons = [
       },
       {
         name: '注释',
-        icon: 't-icon t-flow-comment',
+        icon: 'l-flow-comment',
         id: 35,
         data: {
           text: '注释',
@@ -892,7 +894,7 @@ export const defaultIcons = [
     list: [
       {
         name: '开始',
-        icon: 't-icon t-inital',
+        icon: 'l-inital',
         id: 36,
         data: {
           text: '',
@@ -905,7 +907,7 @@ export const defaultIcons = [
       },
       {
         name: '结束',
-        icon: 't-icon t-final',
+        icon: 'l-final',
         id: 37,
         data: {
           width: 30,
@@ -915,7 +917,7 @@ export const defaultIcons = [
       },
       {
         name: '活动',
-        icon: 't-icon t-action',
+        icon: 'l-action',
         id: 38,
         data: {
           text: '活动',
@@ -927,7 +929,7 @@ export const defaultIcons = [
       },
       {
         name: '决策/合并',
-        icon: 't-icon t-diamond',
+        icon: 'l-diamond',
         id: 39,
         data: {
           text: '决策/合并',
@@ -938,7 +940,7 @@ export const defaultIcons = [
       },
       {
         name: '垂直泳道',
-        icon: 't-icon t-swimlane-v',
+        icon: 'l-swimlane-v',
         id: 40,
         data: {
           text: '垂直泳道',
@@ -953,7 +955,7 @@ export const defaultIcons = [
       },
       {
         name: '水平泳道',
-        icon: 't-icon t-swimlane-h',
+        icon: 'l-swimlane-h',
         id: 41,
         data: {
           text: '水平泳道',
@@ -968,7 +970,7 @@ export const defaultIcons = [
       },
       {
         name: '垂直分岔/汇合',
-        icon: 't-icon t-fork-v',
+        icon: 'l-fork-v',
         id: 42,
         data: {
           text: '垂直分岔/汇合',
@@ -981,7 +983,7 @@ export const defaultIcons = [
       },
       {
         name: '水平分岔/汇合',
-        icon: 't-icon t-fork',
+        icon: 'l-fork',
         id: 43,
         data: {
           text: '水平分岔/汇合',
@@ -1000,7 +1002,7 @@ export const defaultIcons = [
     list: [
       {
         name: '生命线',
-        icon: 't-icon t-lifeline',
+        icon: 'l-lifeline',
         id: 44,
         data: {
           text: '生命线',
@@ -1012,7 +1014,7 @@ export const defaultIcons = [
       },
       {
         name: '激活',
-        icon: 't-icon t-focus',
+        icon: 'l-focus',
         id: 45,
         data: {
           text: '激活',
@@ -1023,7 +1025,7 @@ export const defaultIcons = [
       },
       {
         name: '简单类',
-        icon: 't-icon t-simple-class',
+        icon: 'l-simple-class',
         id: 46,
         data: {
           text: 'Topolgoy',
@@ -1043,7 +1045,7 @@ export const defaultIcons = [
       },
       {
         name: '类',
-        icon: 't-icon t-class',
+        icon: 'l-class',
         id: 47,
         data: {
           text: 'Topolgoy',
@@ -1072,7 +1074,7 @@ export const defaultIcons = [
     list: [
       {
         name: '折线图',
-        icon: 't-icon t-line-chart',
+        icon: 'l-line-chart',
         data: {
           name: 'echarts',
           width: 400,
@@ -1145,7 +1147,7 @@ export const defaultIcons = [
       },
       {
         name: '柱状图',
-        icon: 't-icon t-bar-chart',
+        icon: 'l-bar-chart',
         data: {
           width: 300,
           height: 200,
@@ -1220,7 +1222,7 @@ export const defaultIcons = [
       },
       {
         name: '饼图',
-        icon: 't-icon t-pie-chart',
+        icon: 'l-pie-chart',
         data: {
           width: 200,
           height: 200,
@@ -1298,7 +1300,7 @@ export const defaultIcons = [
       },
       {
         name: '仪表盘',
-        icon: 't-icon t-dashboard-chart',
+        icon: 'l-dashboard-chart',
         data: {
           width: 300,
           height: 300,
@@ -1355,7 +1357,7 @@ export const defaultIcons = [
     list: [
       {
         name: '折线图',
-        icon: 't-icon t-line-chart',
+        icon: 'l-line-chart',
         data: {
           name: 'highcharts',
           width: 400,
@@ -1397,7 +1399,7 @@ export const defaultIcons = [
       },
       {
         name: '柱状图',
-        icon: 't-icon t-bar-chart',
+        icon: 'l-bar-chart',
         data: {
           name: 'highcharts',
           width: 400,
@@ -1472,7 +1474,7 @@ export const defaultIcons = [
       },
       {
         name: '饼图',
-        icon: 't-icon t-pie-chart',
+        icon: 'l-pie-chart',
         data: {
           name: 'highcharts',
           width: 300,
@@ -1568,7 +1570,7 @@ export const defaultIcons = [
       },
       {
         name: '仪表盘',
-        icon: 't-icon t-dashboard-chart',
+        icon: 'l-dashboard-chart',
         data: {
           name: 'highcharts',
           width: 300,
@@ -1694,7 +1696,7 @@ export const defaultIcons = [
     list: [
       {
         name: '折线图',
-        icon: 't-icon t-line-chart',
+        icon: 'l-line-chart',
         data: {
           name: 'lightningCharts',
           width: 400,
@@ -1763,7 +1765,7 @@ export const defaultIcons = [
       },
       {
         name: '柱状图',
-        icon: 't-icon t-bar-chart',
+        icon: 'l-bar-chart',
         data: {
           name: 'lightningCharts',
           width: 400,
@@ -1798,7 +1800,7 @@ export const defaultIcons = [
       },
       {
         name: '饼图',
-        icon: 't-icon t-pie-chart',
+        icon: 'l-pie-chart',
         data: {
           name: 'lightningCharts',
           width: 600,
@@ -1846,7 +1848,7 @@ export const defaultIcons = [
       },
       {
         name: '仪表盘',
-        icon: 't-icon t-dashboard-chart',
+        icon: 'l-dashboard-chart',
         data: {
           name: 'lightningCharts',
           width: 300,
@@ -1877,7 +1879,6 @@ export const defaultIcons = [
     ]
   }
 ];
-
 /**
  * 获取其他图标
  */

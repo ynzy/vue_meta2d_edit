@@ -681,6 +681,8 @@ export const appearanceProps = {
   width: 0,
   height: 0,
   lineWidth: 0,
+  borderWidth: 0,
+  borderColor: '',
   hoverColor: '',
   activeColor: '',
   background: '',
@@ -883,6 +885,9 @@ export const eventBehavior = [
   }
 ];
 
+/**
+ * 动画类型
+ */
 export const animateType = [
   {
     name: '跳动',
@@ -913,5 +918,23 @@ export const animateType = [
         scale: 1.3
       }
     ]
+  }
+];
+
+/**
+ * 动画效果
+ */
+
+export const animateEffect = [
+  {
+    name: '水流'
+  },
+  {
+    name: '水珠流动',
+    key: 'animateDash',
+    value: 0
+  },
+  {
+    name: '圆点'
   }
 ];

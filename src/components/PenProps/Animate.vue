@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { animateType } from '@/data/defaultsConfig';
+import { animateType, animateEffect } from '@/data/defaultsConfig';
 import { onMounted, reactive, ref, toRaw } from 'vue';
 
 let m = reactive(animateType);
+const animateEffectRef = reactive(animateEffect);
 let animate = ref({
   name: '',
   frames: [],
   key: '',
   duration: 0,
   autoPlay: false,
-  animateCycle: Infinity
+  animateCycle: Infinity,
+  animateDash: null
 });
 
 let activePen = {};
@@ -22,7 +24,8 @@ onMounted(() => {
       key: '',
       duration: 0,
       autoPlay: false,
-      animateCycle: Infinity
+      animateCycle: Infinity,
+      animateDash: null
     };
     if (pens.length === 1) {
       activePen = reactive(pens[0]);
@@ -40,12 +43,20 @@ function changeAnimate(f) {
   animate.value.duration = f[0].duration;
 }
 
+/**
+ * 改变动画效果
+ */
+function changeAnimateEffect(e) {
+  animate.value.animateDash = e;
+}
+
 function startAnimate() {
   activePen.animateName = animate.value.name;
   activePen.animateDuration = animate.value.frames[0].duration;
   activePen.frames = animate.value.frames;
   activePen.autoPlay = animate.value.autoPlay;
   activePen.animateCycle = animate.value.animateCycle;
+  activePen.animateDash = animate.value.animateDash;
   meta2d.startAnimate(activePen.id);
 }
 
@@ -61,6 +72,11 @@ function stopAnimate() {
 <template>
   <div class="animate">
     <el-form @submit="(e) => e.preventDefault()">
+      <el-form-item label="动画效果">
+        <el-select v-model="animate.animateDash" value-key="id" placeholder="选择事件类型" @change="changeAnimateEffect">
+          <el-option v-for="e in animateEffectRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="动画类型">
         <el-select v-model="animate.frames" value-key="id" placeholder="选择事件类型" @change="changeAnimate">
           <el-option v-for="e in m" :key="e.key" :label="e.name" :value="e.frames"> </el-option>

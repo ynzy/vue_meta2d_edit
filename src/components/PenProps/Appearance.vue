@@ -449,6 +449,24 @@ const map = [
         func: updateFunc('lineWidth')
       },
       {
+        title: '边框宽度',
+        type: 'number',
+        multiShow: true,
+        prop: 'borderWidth',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('borderWidth')
+      },
+      {
+        title: '边框颜色',
+        type: 'color',
+        multiShow: true,
+        prop: 'borderColor',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('borderColor')
+      },
+      {
         title: '背景颜色',
         type: 'color',
         multiShow: true,
@@ -823,8 +841,10 @@ let showMap = computed(() => {
       return i.multiShow;
     });
   }
+
   return map;
 });
+console.log(showMap);
 </script>
 
 <template>

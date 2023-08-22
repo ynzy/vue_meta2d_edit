@@ -6,6 +6,7 @@ import { globalConfigProps } from '@/data/defaultsConfig';
 
 let m = reactive(globalConfigProps);
 
+// 同步核心库配置，若本地配置则采用本地配置
 function loadOptionsFromMeta2d(options: any, target: any) {
   for (let i in target) {
     if (target[i]) continue;
@@ -18,16 +19,21 @@ onMounted(() => {
 });
 
 function init() {
+  // 获取meta2d配置
   const options = meta2d.getOptions();
+  // 同步meta2d本地和默认配置
   loadOptionsFromMeta2d(options, m);
+  // 更新meta2d配置
   for (let p in m) {
     meta2d.setOptions({
       [p]: m[p]
     });
   }
+  // 重新渲染
   meta2d.render();
 }
 
+// 设置属性
 function setOptionFunc(prop) {
   return (value) => {
     meta2d.setOptions({
