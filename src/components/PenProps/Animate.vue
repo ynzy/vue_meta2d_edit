@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { animateType, animateEffect } from '@/data/defaultsConfig';
+import { animateType, lineAnimateType, animateDash } from '@/data/defaultsConfig';
 import { onMounted, reactive, ref, toRaw } from 'vue';
 
 let m = reactive(animateType);
-const animateEffectRef = reactive(animateEffect);
+const lineAnimateTypeRef = ref(lineAnimateType);
+const animateDashRef = ref(animateDash);
 let animate = ref({
   name: '',
   frames: [],
@@ -11,6 +12,7 @@ let animate = ref({
   duration: 0,
   autoPlay: false,
   animateCycle: Infinity,
+  lineAnimateType: 0,
   animateDash: null
 });
 
@@ -25,6 +27,7 @@ onMounted(() => {
       duration: 0,
       autoPlay: false,
       animateCycle: Infinity,
+      lineAnimateType: 0,
       animateDash: null
     };
     if (pens.length === 1) {
@@ -36,6 +39,8 @@ onMounted(() => {
       animate.value.frames = activePen.frames || [];
       animate.value.name = activePen.animateName || '';
       animate.value.duration = activePen.animateDuration || 0;
+      animate.value.animateDash = activePen.animateDash || 0;
+      animate.value.lineAnimateType = activePen.lineAnimateType || 0;
     }
   });
 });
@@ -44,19 +49,28 @@ function changeAnimate(f) {
 }
 
 /**
- * 改变动画效果
+ * 修改线动画类型
  */
-function changeAnimateEffect(e) {
+function changeLineAnimateType(e) {
+  console.log(e);
+  animate.value.lineAnimateType = e;
+}
+
+/**
+ * 修改动画线样式
+ */
+function changeAnimateDash(e) {
   animate.value.animateDash = e;
 }
 
 function startAnimate() {
   activePen.animateName = animate.value.name;
-  activePen.animateDuration = animate.value.frames[0].duration;
+  activePen.animateDuration = animate.value.frames[0]?.duration;
   activePen.frames = animate.value.frames;
   activePen.autoPlay = animate.value.autoPlay;
   activePen.animateCycle = animate.value.animateCycle;
   activePen.animateDash = animate.value.animateDash;
+  activePen.lineAnimateType = animate.value.lineAnimateType;
   meta2d.startAnimate(activePen.id);
 }
 
@@ -73,8 +87,13 @@ function stopAnimate() {
   <div class="animate">
     <el-form @submit="(e) => e.preventDefault()">
       <el-form-item label="动画效果">
-        <el-select v-model="animate.animateDash" value-key="id" placeholder="选择事件类型" @change="changeAnimateEffect">
-          <el-option v-for="e in animateEffectRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
+        <el-select v-model="animate.lineAnimateType" placeholder="选择线动画类型">
+          <el-option v-for="e in lineAnimateTypeRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="动画线条">
+        <el-select v-model="animate.animateDash" placeholder="选择动画线样式类型">
+          <el-option v-for="e in animateDashRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="动画类型">

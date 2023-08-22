@@ -922,19 +922,45 @@ export const animateType = [
 ];
 
 /**
- * 动画效果
+ * 线路动画类型
  */
 
-export const animateEffect = [
+export const lineAnimateType = [
   {
-    name: '水流'
-  },
-  {
-    name: '水珠流动',
-    key: 'animateDash',
+    name: '水流',
+    key: 'stream',
     value: 0
   },
   {
-    name: '圆点'
+    name: '水珠流动',
+    key: 'waterFlow',
+    value: 1
+  },
+  {
+    name: '圆点',
+    key: 'dot',
+    value: 2
   }
+];
+
+/**
+ * 动画线条样式
+ */
+
+export const animateDash = [
+  {
+    name: '点虚线',
+    key: 'dot_dash',
+    value: 0
+  }
+  // {
+  //   name: '水珠流动',
+  //   key: 'waterFlow',
+  //   value: 1
+  // },
+  // {
+  //   name: '圆点',
+  //   key: 'dot',
+  //   value: 2
+  // }
 ];
