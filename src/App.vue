@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <Nav></Nav>
-  <Main></Main>
-  <!-- <RouterView /> -->
+  <RouterView />
 </template>
 
 <style scoped></style>

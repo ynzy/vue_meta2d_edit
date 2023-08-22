@@ -9,6 +9,7 @@
       </el-sub-menu>
       <el-menu-item route="" v-else @click="dispatchFunc(item.action)" :index="index + 1 + ''">{{ item.name }}</el-menu-item>
     </div>
+    <el-menu-item @click="onView" route="">预览</el-menu-item>
 
     <div class="flex-grow"></div>
     <div v-for="(item, index) in menu.right" :key="index">
@@ -47,6 +48,9 @@
 import { menu, dispatchFunc } from '@/data/defaultsConfig';
 import { onMounted, ref } from 'vue';
 import { useEventbus } from '@/hooks/useEventbus';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 let lockNumber = 0;
 let lockStatus = ref('锁定');
 let lockIcon = ref('t-unlock');
@@ -64,6 +68,24 @@ function changeLock() {
 
 const eventbus = useEventbus();
 
+/**
+ * 预览
+ */
+function onView() {
+  // 先停止动画，避免数据波动
+  meta2d.stopAnimate();
+  // 本地存储
+  const data: any = meta2d.data();
+  localStorage.setItem('meta2d', JSON.stringify(data));
+  // 跳转到预览页面
+  router.push({
+    path: '/preview',
+    query: {
+      r: Date.now() + '',
+      id: data._id
+    }
+  });
+}
 /**
  *
  * @param val 缩放视图

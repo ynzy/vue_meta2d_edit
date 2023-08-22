@@ -16,7 +16,7 @@ import Contextmenu from './Contextmenu.vue';
 const event = useEventbus();
 
 const meta2dOptions = {
-  grid: true,
+  // grid: true
   rule: true
 };
 
@@ -57,6 +57,24 @@ onMounted(() => {
   meta2d.registerCanvasDraw({ canvasTriangle });
   //注册锚点
   meta2d.registerAnchors({ canvasTriangle: canvasTriangleAnchors });
+
+  // 注册其他自定义图形库
+  // ...
+
+  // 读取本地存储
+  let data: any = localStorage.getItem('meta2d');
+  if (data) {
+    data = JSON.parse(data);
+
+    // 判断是否为运行查看，是-设置为预览模式
+    if (location.pathname === '/preview') {
+      data.locked = 1;
+    } else {
+      data.locked = 0;
+    }
+    meta2d.open(data);
+  }
+
   event.customEmit('opened');
   event.customEmit('load');
 });
