@@ -673,6 +673,9 @@ export const globalConfigProps = {
   textFlip: false
 };
 
+/**
+ * 外观属性
+ */
 export const appearanceProps = {
   x: 0,
   y: 0,
@@ -884,6 +887,16 @@ export const eventBehavior = [
     ]
   }
 ];
+
+export const animateProps = {
+  animateName: '',
+  frames: [],
+  animateDuration: 0,
+  autoPlay: false,
+  animateCycle: Infinity,
+  lineAnimateType: 0,
+  animateDash: null
+};
 
 /**
  * 动画类型

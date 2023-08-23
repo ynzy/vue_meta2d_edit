@@ -1,76 +1,212 @@
 <script setup lang="ts">
-import { animateType, lineAnimateType, animateDash } from '@/data/defaultsConfig';
-import { onMounted, reactive, ref, toRaw } from 'vue';
+import Form from '@/components/Form.vue';
+import { computed, onMounted, reactive, ref, toRaw, watch } from 'vue';
+import { animateProps } from '@/data/defaultsConfig';
+import { mergeProps } from '@/data/utils';
+import { deepClone } from '@meta2d/core';
 
-let m = reactive(animateType);
-const lineAnimateTypeRef = ref(lineAnimateType);
-const animateDashRef = ref(animateDash);
-let animate = ref({
-  name: '',
-  frames: [],
-  key: '',
-  duration: 0,
-  autoPlay: false,
-  animateCycle: Infinity,
-  lineAnimateType: 0,
-  animateDash: null
-});
-
+// 记录是否有选中多个图元
+const multiPen = ref(false);
+const defaultConfig = deepClone(animateProps); //深拷贝保存默认配置
+let m = reactive(animateProps); // 响应式数据源
 let activePen = {};
 
-onMounted(() => {
-  meta2d.on('active', (pens) => {
-    animate.value = {
-      name: '',
-      frames: [],
-      key: '',
-      duration: 0,
-      autoPlay: false,
-      animateCycle: Infinity,
-      lineAnimateType: 0,
-      animateDash: null
-    };
-    if (pens.length === 1) {
-      activePen = reactive(pens[0]);
+// 更新属性方法
+function updateFunc(prop) {
+  return (value) => {
+    if (multiPen.value) {
+      for (let i of activePen) {
+        meta2d.setValue(
+          {
+            id: i.id,
+            [prop]: value
+          },
+          { render: false }
+        );
+      }
+      meta2d.render();
+    } else {
+      meta2d.setValue({
+        id: activePen.id,
+        [prop]: value
+      });
     }
-    if (pens[0]) {
-      animate.value.autoPlay = activePen.autoPlay || false;
-      animate.value.animateCycle = activePen.animateCycle || Infinity;
-      animate.value.frames = activePen.frames || [];
-      animate.value.name = activePen.animateName || '';
-      animate.value.duration = activePen.animateDuration || 0;
-      animate.value.animateDash = activePen.animateDash || 0;
-      animate.value.lineAnimateType = activePen.lineAnimateType || 0;
+  };
+}
+
+onMounted(() => {
+  meta2d.on('active', (args) => {
+    // 只修改一个
+    if (args.length >= 1) {
+      multiPen.value = args.length > 1;
+      if (multiPen.value) {
+        // 批量修改
+        activePen = reactive(args);
+        // 以最后一个图元信息为主
+        for (let i of activePen) {
+          mergeProps(m, i);
+        }
+      } else {
+        // 修改一个
+        activePen = reactive(args[0]);
+        mergeProps(m, defaultConfig);
+        mergeProps(m, activePen);
+        const penRect = meta2d.getPenRect(toRaw(activePen));
+        Object.assign(m, penRect);
+      }
+    }
+  });
+  // 更新数据  合并多个事件
+  meta2d.on('update', () => {
+    meta2d.emit('editPen');
+  });
+  meta2d.on('resizePens', () => {
+    meta2d.emit('editPen');
+  });
+  meta2d.on('rotatePens', () => {
+    meta2d.emit('editPen');
+  });
+  meta2d.on('valueUpdate', () => {
+    meta2d.emit('editPen');
+  });
+  meta2d.on('editPen', () => {
+    if (multiPen.value) {
+      // 若有多个图元，则设置以最后一个图元为主
+      for (let i of activePen) {
+        mergeProps(m, i);
+      }
+    } else {
+      mergeProps(m, activePen);
     }
   });
 });
-function changeAnimate(f) {
-  animate.value.duration = f[0].duration;
-}
 
-/**
- * 修改线动画类型
- */
-function changeLineAnimateType(e) {
-  console.log(e);
-  animate.value.lineAnimateType = e;
-}
+const map = [
+  {
+    title: '动画',
+    multiShow: false,
+    children: [
+      {
+        title: '动画效果',
+        type: 'select',
+        multiShow: true,
+        option: {
+          placeholder: '动画效果',
+          list: [
+            {
+              label: '水流',
+              value: 0
+            },
+            {
+              label: '水珠流动',
+              value: 1
+            },
+            {
+              label: '圆点',
+              value: 2
+            }
+          ]
+        },
+        prop: 'lineAnimateType',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('lineAnimateType')
+      },
+      {
+        title: '动画线条',
+        type: 'select',
+        multiShow: true,
+        option: {
+          placeholder: '动画线条',
+          list: [
+            {
+              label: '点虚线',
+              value: 0
+            }
+          ]
+        },
+        prop: 'animateDash',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('animateDash')
+      },
+      {
+        title: '动画时长',
+        type: 'number',
+        multiShow: true,
+        prop: 'animateDuration',
+        bindProp: m,
+        option: {
+          min: 0,
+          step: 1,
+          max: 60
+        },
+        event: 'change',
+        func: updateFunc('animateDuration')
+      },
+      {
+        title: '自动播放',
+        type: 'switch',
+        prop: 'autoPlay',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('autoPlay')
+      },
+      {
+        // title: '开始动画',
+        type: 'button',
+        option: {
+          title: '开始动画',
+          type: 'primary'
+        },
+        event: 'click',
+        func: startAnimate
+      },
+      {
+        // title: '暂停动画',
+        type: 'button',
+        option: {
+          title: '暂停动画',
+          type: 'danger'
+        },
+        event: 'click',
+        func: pauseAnimate
+      },
+      {
+        // title: '停止动画',
+        type: 'button',
+        option: {
+          title: '停止动画',
+          type: 'danger'
+        },
+        event: 'click',
+        func: stopAnimate
+      }
+    ]
+  }
+];
 
-/**
- * 修改动画线样式
- */
-function changeAnimateDash(e) {
-  animate.value.animateDash = e;
-}
+// 计算展示字段列表
+let showMap = computed(() => {
+  if (multiPen.value) {
+    return map.filter((i) => {
+      i.multiShow ? (i.children = i.children.filter((item) => item.multiShow)) : '';
+      return i.multiShow;
+    });
+  }
+
+  return map;
+});
+// console.log(showMap);
 
 function startAnimate() {
-  activePen.animateName = animate.value.name;
-  activePen.animateDuration = animate.value.frames[0]?.duration;
-  activePen.frames = animate.value.frames;
-  activePen.autoPlay = animate.value.autoPlay;
-  activePen.animateCycle = animate.value.animateCycle;
-  activePen.animateDash = animate.value.animateDash;
-  activePen.lineAnimateType = animate.value.lineAnimateType;
+  activePen.animateName = m.animateName;
+  activePen.animateDuration = m.frames[0]?.animateDuration;
+  activePen.frames = m.frames;
+  activePen.autoPlay = m.autoPlay;
+  activePen.animateCycle = m.animateCycle;
+  activePen.animateDash = m.animateDash;
+  activePen.lineAnimateType = m.lineAnimateType;
   meta2d.startAnimate(activePen.id);
 }
 
@@ -84,50 +220,14 @@ function stopAnimate() {
 </script>
 
 <template>
-  <div class="animate">
-    <el-form @submit="(e) => e.preventDefault()">
-      <el-form-item label="动画效果">
-        <el-select v-model="animate.lineAnimateType" placeholder="选择线动画类型">
-          <el-option v-for="e in lineAnimateTypeRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="动画线条">
-        <el-select v-model="animate.animateDash" placeholder="选择动画线样式类型">
-          <el-option v-for="e in animateDashRef" :key="e.key" :label="e.name" :value="e.value"> </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="动画类型">
-        <el-select v-model="animate.frames" value-key="id" placeholder="选择事件类型" @change="changeAnimate">
-          <el-option v-for="e in m" :key="e.key" :label="e.name" :value="e.frames"> </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="动画时长">
-        <el-input v-model="animate.duration" disabled />
-      </el-form-item>
-
-      <el-form-item label="自动播放">
-        <el-switch v-model="animate.autoPlay" />
-      </el-form-item>
-      <div class="event_button">
-        <el-button @click="startAnimate" type="primary" style="width: 60px; font-size: 10px">开始动画</el-button>
-        <el-button @click="pauseAnimate" type="danger" style="width: 60px; font-size: 10px">暂停动画</el-button>
-        <el-button @click="stopAnimate" type="danger" style="width: 60px; font-size: 10px">停止动画</el-button>
-      </div>
-    </el-form>
+  <div class="appearanceProps">
+    <Form :form-list="showMap"></Form>
+    <!-- <div class="event_button">
+      <el-button @click="startAnimate" type="primary" style="width: 60px; font-size: 10px">开始动画</el-button>
+      <el-button @click="pauseAnimate" type="danger" style="width: 60px; font-size: 10px">暂停动画</el-button>
+      <el-button @click="stopAnimate" type="danger" style="width: 60px; font-size: 10px">停止动画</el-button>
+    </div> -->
   </div>
 </template>
 
-<style scoped>
-.animate {
-  margin: 10px;
-}
-
-.event_button {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-</style>
+<style scoped></style>
