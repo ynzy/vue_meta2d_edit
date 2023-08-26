@@ -1975,6 +1975,8 @@ async function getPngs() {
   for (let i of pngUrl) {
     if (i.type === 'directory') {
       const { data: files } = await axios.get(folderName + i.name + '/');
+      console.log('files', files);
+
       png.push({
         name: i.name,
         count: files.length,
@@ -1986,6 +1988,8 @@ async function getPngs() {
       });
     }
   }
+  console.log('png', png);
+
   return png;
 }
 
