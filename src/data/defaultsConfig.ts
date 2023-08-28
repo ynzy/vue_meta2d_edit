@@ -680,14 +680,22 @@ export const appearanceProps = {
   x: 0,
   y: 0,
   text: '',
-  color: '',
+  // color: '',
+  'color': 'rgba(179, 152, 162, 1)',
   width: 0,
   height: 0,
-  lineWidth: 0,
-  borderWidth: 0,
-  borderColor: '',
+  // lineWidth: 0,
+  // borderWidth: 0,
+  // borderColor: '',
+  'lineWidth': 10,
+  'borderWidth': 5,
+  'borderColor': 'rgba(98, 52, 52, 1)',
   hoverColor: '',
   activeColor: '',
+  strokeType: 0, // 线条渐变
+  lineGradientColors:
+    'linear-gradient(90deg,rgba(255, 98, 46, 1) 0%,rgb(255, 98, 46) 18%,rgb(204, 0, 0) 20%,rgb(255, 98, 46) 50%,rgb(204, 0, 0) 80%,rgb(255, 98, 46) 82%,rgb(255, 98, 46) 100%)', // 线条渐变色
+  gradientSmooth: 1, // 平滑度
   background: '',
   hoverBackground: '',
   activeBackground: '',
@@ -895,7 +903,9 @@ export const animateProps = {
   autoPlay: false,
   animateCycle: Infinity,
   lineAnimateType: 0,
-  animateDash: null
+  animateDash: null,
+  animateReverse: false,
+  animateColor: '' // 动画颜色
 };
 
 /**

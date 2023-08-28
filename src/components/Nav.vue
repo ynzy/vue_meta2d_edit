@@ -101,6 +101,22 @@ function syncData() {
   // @ts-ignore
   menu.right.find((i) => i.key === 'end').icon = window.meta2d.store.data.toArrow ? 'l-to-' + window.meta2d.store.data.toArrow : 'l-line';
 }
+
+// 更新属性方法
+function updateFunc(activePen, props) {
+  Object.entries(props).forEach(([key, value]) => {
+    meta2d.setValue(
+      {
+        id: activePen.id,
+        [key]: value
+      },
+      { render: false }
+    );
+  });
+
+  meta2d.render();
+}
+
 onMounted(() => {
   // 监听meta2d打开状态
   eventbus.customOn('opened', () => {
@@ -116,6 +132,27 @@ onMounted(() => {
       meta2d.store.data.locked = 2;
       lockIcon.value = lockIcons[2];
       lockStatus.value = lockStatusList[2];
+    });
+
+    meta2d.on('active', (args) => {
+      console.log('args', args);
+      // 设置线路默认样式
+      if (args.length && args[0].name === 'line') {
+        const activePen = reactive(args[0]);
+        updateFunc(activePen, {
+          // 'lineWidth': 10,
+          // 'borderWidth': 5,
+          // 'lineAnimateType': 1,
+          // 'animateDash': 0,
+          // 'autoPlay': true
+          // 'color': 'rgba(179, 152, 162, 1)',
+          // 'borderColor': 'rgba(98, 52, 52, 1)',
+          // 'animateColor': 'rgba(98, 52, 52, 1)'
+          // 'color': 'rgba(145, 171, 163, 1)',
+          // 'borderColor': 'rgba(49, 71, 28, 1)',
+          // 'animateColor': 'rgba(49, 71, 28, 1)'
+        });
+      }
     });
   });
 });

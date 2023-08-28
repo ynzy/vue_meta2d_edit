@@ -38,7 +38,7 @@ export function devServerMiddleware() {
                   list.push({ name: item.name });
                 }
               }
-              // console.log('解析完成的图标列表', JSON.stringify(list));
+              console.log('解析完成的图标列表', JSON.stringify(list));
 
               res.end(JSON.stringify(list));
             } catch (e) {

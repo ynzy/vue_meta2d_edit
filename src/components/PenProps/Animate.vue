@@ -131,6 +131,15 @@ const map = [
         func: updateFunc('animateDash')
       },
       {
+        title: '动画颜色',
+        type: 'color',
+        multiShow: true,
+        prop: 'animateColor',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('animateColor')
+      },
+      {
         title: '动画时长',
         type: 'number',
         multiShow: true,
@@ -143,6 +152,16 @@ const map = [
         },
         event: 'change',
         func: updateFunc('animateDuration')
+      },
+
+      {
+        title: '反向流动',
+        type: 'switch',
+        multiShow: true,
+        prop: 'animateReverse',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('animateReverse')
       },
       {
         title: '自动播放',
@@ -201,8 +220,8 @@ let showMap = computed(() => {
 
 function startAnimate() {
   activePen.animateName = m.animateName;
-  activePen.animateDuration = m.frames[0]?.animateDuration;
-  activePen.frames = m.frames;
+  // activePen.animateDuration = m.frames[0]?.animateDuration;
+  // activePen.frames = m.frames;
   activePen.autoPlay = m.autoPlay;
   activePen.animateCycle = m.animateCycle;
   activePen.animateDash = m.animateDash;
@@ -222,11 +241,11 @@ function stopAnimate() {
 <template>
   <div class="appearanceProps">
     <Form :form-list="showMap"></Form>
-    <!-- <div class="event_button">
+    <div class="event_button">
       <el-button @click="startAnimate" type="primary" style="width: 60px; font-size: 10px">开始动画</el-button>
       <el-button @click="pauseAnimate" type="danger" style="width: 60px; font-size: 10px">暂停动画</el-button>
       <el-button @click="stopAnimate" type="danger" style="width: 60px; font-size: 10px">停止动画</el-button>
-    </div> -->
+    </div>
   </div>
 </template>
 

@@ -413,6 +413,46 @@ const map = [
         func: updateFunc('lineCap')
       },
       {
+        title: '线条渐变',
+        type: 'select',
+        multiShow: true,
+        option: {
+          placeholder: '线条渐变',
+          list: [
+            {
+              label: '无',
+              value: '0'
+            },
+            {
+              label: '线性渐变',
+              value: '1'
+            }
+          ]
+        },
+        prop: 'strokeType',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('strokeType')
+      },
+      {
+        title: '线条渐变色',
+        type: 'input',
+        multiShow: true,
+        prop: 'lineGradientColors',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('lineGradientColors')
+      },
+      {
+        title: '平滑度',
+        type: 'number',
+        multiShow: true,
+        prop: 'gradientSmooth',
+        bindProp: m,
+        event: 'change',
+        func: updateFunc('gradientSmooth')
+      },
+      {
         title: '颜色',
         type: 'color',
         multiShow: true,
@@ -425,6 +465,9 @@ const map = [
         title: '浮动颜色',
         type: 'color',
         multiShow: true,
+        option: {
+          placeholder: '推荐1-3'
+        },
         prop: 'hoverColor',
         bindProp: m,
         event: 'change',
