@@ -38,9 +38,10 @@ export function devServerMiddleware() {
                   list.push({ name: item.name });
                 }
               }
-              console.log('解析完成的图标列表', JSON.stringify(list));
-
-              res.end(JSON.stringify(list));
+              const json = JSON.stringify(list);
+              console.log('解析完成的图标列表', json);
+              handleWriteFile(url, json);
+              res.end(json);
             } catch (e) {
               console.log('图标列表解析错误', e);
 
@@ -54,3 +55,27 @@ export function devServerMiddleware() {
     }
   };
 }
+
+const handleWriteFile = (url, json) => {
+  const decodedUrl = decodeURIComponent(url);
+  const urlPathSegments = decodedUrl.split('/').filter((segment) => segment !== '');
+  // 创建 JSON 存储目录
+  const jsonRootDir = path.join(__dirname, '../../../public/iconJson');
+  const subDirPath = path.join(jsonRootDir, ...urlPathSegments);
+
+  try {
+    fs.mkdirSync(subDirPath, { recursive: true });
+    const jsonFileName = 'data.json';
+    const jsonFilePath = path.join(subDirPath, jsonFileName);
+
+    try {
+      fs.writeFileSync(jsonFilePath, json);
+      console.log('JSON 文件写入成功：', jsonFilePath);
+    } catch (error) {
+      console.error('写入 JSON 文件时发生错误：', error);
+    }
+  } catch (error) {
+    console.error('创建子目录时发生错误：', error);
+    return;
+  }
+};
