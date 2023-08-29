@@ -6,6 +6,7 @@ import { parseSvg } from '@meta2d/svg';
 import { userPensUrl } from './defaultsConfig';
 import { iconMap } from '../../public/path2D/index';
 import { canvasDrawMap } from '../../public/canvasDraw/index';
+import { httpRequest } from '@/api/request';
 
 export const defaultIcons = [
   {
@@ -1915,7 +1916,7 @@ async function getUnicodeIcons() {
  */
 async function addIcons(url: string) {
   // 请求路径
-  let data = await fetch('/icon/' + url + '/iconfont.json').then((rsp) => rsp.json());
+  let data = await httpRequest.get('/icon/' + url + '/iconfont.json');
   let iconGroup = {
     name: data.name,
     loaded: true,
@@ -1952,7 +1953,8 @@ async function getSvgs() {
   for (let i of svgUrl) {
     // 如果是目录，获取目录下的文件列表
     if (i.type === 'directory') {
-      const { data: files } = await axios.get(folderName + i.name + '/');
+      const res = await httpRequest.get(folderName + i.name + '/');
+      const files = res.data;
       // console.log('files', files);
       svgs.push({
         name: i.name,
@@ -1974,7 +1976,8 @@ async function getPngs() {
   const pngUrl = await userPensUrl.png();
   for (let i of pngUrl) {
     if (i.type === 'directory') {
-      const { data: files } = await axios.get(folderName + i.name + '/');
+      const res = await httpRequest.get(folderName + i.name + '/');
+      const files = res.data;
       console.log('files', files);
 
       png.push({
@@ -2003,7 +2006,10 @@ async function getPath2Ds() {
   const path2DUrl = await userPensUrl.path2D();
   for (let i of path2DUrl) {
     if (i.type === 'directory') {
-      const { data: files } = await axios.get(folderName + i.name + '/');
+      const res = await httpRequest.get(folderName + i.name + '/');
+      const files = res.data;
+      console.log(files);
+
       let dataList = [];
       for (let j of files) {
         const name = getFileName(j.name);
@@ -2038,7 +2044,8 @@ async function getCanvasDraw() {
   const canvasUrl = await userPensUrl.canvasDraw();
   for (let i of canvasUrl) {
     if (i.type === 'directory') {
-      const { data: files } = await axios.get(folderName + i.name + '/');
+      const res = await httpRequest.get(folderName + i.name + '/');
+      const files = res.data;
       let dataList = [];
       for (let j of files) {
         const name = getFileName(j.name);
@@ -2089,7 +2096,7 @@ export async function svgToPens(f: any, dName: string) {
   return {
     name,
     image,
-    data: parseSvg(await fetch(image).then((res) => res.text())),
+    data: parseSvg(await httpRequest.get(image)),
     component: true
   };
 }

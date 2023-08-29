@@ -4,6 +4,7 @@ import { parseSvg } from '@meta2d/svg';
 import { ElMessage } from 'element-plus';
 import { EventAction, PenType } from '@meta2d/core';
 import { useEventbus } from '@/hooks/useEventbus';
+import { httpRequest } from '@/api/request';
 
 /**
  *
@@ -13,7 +14,8 @@ import { useEventbus } from '@/hooks/useEventbus';
  */
 function getUserDir(path: string, extend = []) {
   return async () => {
-    const { data: fileList } = await axios.get(path);
+    const res = await httpRequest.get(path);
+    const fileList = res.data;
     return fileList.concat(extend); // 合并路径，方便未来用户自定义扩充路径
   };
 }

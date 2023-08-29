@@ -4,6 +4,7 @@ import { defaultIcons, getOtherIcons, pngToPens, svgToPens } from '@/data/icons'
 import { Search } from '@element-plus/icons';
 
 import { ref } from 'vue';
+import { httpRequest } from '@/api/request';
 const activeNames = ref(1);
 const inputValue = ref('');
 const iconList = reactive([...defaultIcons]);
@@ -33,7 +34,8 @@ async function changeState(tab) {
     // 判断tab是否被加载过
     if (!tab.loaded) {
       // 获取对应文件夹下的图标文件信息
-      const { data: files } = await axios.get((tab.svg ? '/svg/' : '/png/') + tab.name + '/');
+      const res = await httpRequest.get((tab.svg ? '/svg/' : '/png/') + tab.name + '/');
+      const files = res.data;
       tab.loaded = true;
       // 如果是svg，使用svgToPens方法返回meta2d可识别的pen图元
       if (tab.svg) {

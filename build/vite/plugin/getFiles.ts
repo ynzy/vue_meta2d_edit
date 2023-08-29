@@ -38,7 +38,9 @@ export function devServerMiddleware() {
                   list.push({ name: item.name });
                 }
               }
-              const json = JSON.stringify(list);
+              const json = JSON.stringify({
+                data: list
+              });
               console.log('解析完成的图标列表', json);
               handleWriteFile(url, json);
               res.end(json);
