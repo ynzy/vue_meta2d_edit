@@ -5,6 +5,7 @@ import { ElMessage } from 'element-plus';
 import { EventAction, PenType } from '@meta2d/core';
 import { useEventbus } from '@/hooks/useEventbus';
 import { httpRequest } from '@/api/request';
+import { openFileUpload } from '@/utils';
 
 /**
  *
@@ -310,20 +311,24 @@ const menuFunc = {
     window.meta2d.open();
   },
   async openFile() {
-    const file = await window.showOpenFilePicker().catch(() => {
-      console.log('打开文件失败');
-      return false;
-    });
-    if (file) {
-      //@ts-ignore
-      const dataObj = await file[0].getFile();
-      const data = await dataObj.text();
-      if (data) {
-        const json = JSON.parse(data);
-        window.meta2d.open(json);
-        useEventbus().customEmit('opened');
-      }
-    }
+    const data = await openFileUpload();
+    const json = JSON.parse(data);
+    window.meta2d.open(json);
+    useEventbus().customEmit('opened');
+    // const file = await window.showOpenFilePicker().catch(() => {
+    //   console.log('打开文件失败');
+    //   return false;
+    // });
+    // if (file) {
+    //   //@ts-ignore
+    //   const dataObj = await file[0].getFile();
+    //   const data = await dataObj.text();
+    //   if (data) {
+    //     const json = JSON.parse(data);
+    //     window.meta2d.open(json);
+    //     useEventbus().customEmit('opened');
+    //   }
+    // }
   },
   /**
    *
